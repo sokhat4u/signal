@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import ccxt
-import pandas as pd
-import pandas_ta as ta  # ta-lib ki jagah pandas_ta ka use karein
+import pandas
+import pandas_ta  # ta-lib ki jagah pandas_ta ka use karein
 
 app = Flask(__name__)
 
