@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import ccxt
-import pandas
-import pandas_ta  # ta-lib ki jagah pandas_ta ka use karein
+import pandas as pd
+import pandas_ta as ta  # pandas_ta ka use karein
 
 app = Flask(__name__)
 
@@ -61,4 +61,4 @@ def generate_signal():
     return render_template('results.html', signal=signal)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)
