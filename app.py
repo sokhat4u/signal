@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import ccxt
 import pandas as pd
-import talib  # pandas_ta ki jagah talib ka use karein
+import pandas_ta as ta  # ta-lib ki jagah pandas_ta ka use karein
 
 app = Flask(__name__)
 
@@ -12,10 +12,10 @@ def get_signals(symbol, timeframe='1h'):
         ohlcv = binance.fetch_ohlcv(symbol, timeframe)
         df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
         
-        # Indicators add karein (talib ka use karke)
-        df['EMA20'] = talib.EMA(df['close'], timeperiod=20)
-        df['EMA50'] = talib.EMA(df['close'], timeperiod=50)
-        df['RSI'] = talib.RSI(df['close'], timeperiod=14)
+        # Indicators add karein (pandas_ta ka use karke)
+        df['EMA20'] = ta.ema(df['close'], length=20)
+        df['EMA50'] = ta.ema(df['close'], length=50)
+        df['RSI'] = ta.rsi(df['close'], length=14)
         
         latest = df.iloc[-1]
         prev = df.iloc[-2]
