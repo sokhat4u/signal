@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import ccxt
 import pandas as pd
-import pandas_ta as ta
+import talib  # pandas_ta ki jagah talib ka use karein
 
 app = Flask(__name__)
 
@@ -12,10 +12,10 @@ def get_signals(symbol, timeframe='1h'):
         ohlcv = binance.fetch_ohlcv(symbol, timeframe)
         df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
         
-        # इंडिकेटर्स जोड़ें
-        df['EMA20'] = ta.ema(df['close'], length=20)
-        df['EMA50'] = ta.ema(df['close'], length=50)
-        df['RSI'] = ta.rsi(df['close'], length=14)
+        # Indicators add karein (talib ka use karke)
+        df['EMA20'] = talib.EMA(df['close'], timeperiod=20)
+        df['EMA50'] = talib.EMA(df['close'], timeperiod=50)
+        df['RSI'] = talib.RSI(df['close'], timeperiod=14)
         
         latest = df.iloc[-1]
         prev = df.iloc[-2]
@@ -29,11 +29,11 @@ def get_signals(symbol, timeframe='1h'):
             'tp2': None
         }
         
-        # ट्रेंड एनालिसिस
+        # Trend analysis
         if latest['EMA20'] > latest['EMA50'] and latest['RSI'] < 70:
             signal['action'] = 'BUY/LONG'
-            signal['sl'] = round(latest['low'] * 0.98, 4)  # 2% स्टॉप लॉस
-            signal['tp1'] = round(latest['close'] * 1.04, 4)  # 4% टेक प्रॉफिट
+            signal['sl'] = round(latest['low'] * 0.98, 4)  # 2% stop loss
+            signal['tp1'] = round(latest['close'] * 1.04, 4)  # 4% take profit
             signal['tp2'] = round(latest['close'] * 1.08, 4)
         elif latest['EMA20'] < latest['EMA50'] and latest['RSI'] > 30:
             signal['action'] = 'SELL/SHORT'
