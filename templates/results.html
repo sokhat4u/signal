@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signal Results</title>
+</head>
+<body>
+    <h1>Trading Signal for {{ signal.symbol }}</h1>
+    {% if signal %}
+        <p>Action: <strong>{{ signal.action }}</strong></p>
+        <p>Entry Price: {{ signal.entry }}</p>
+        <p>Stop Loss: {{ signal.sl }}</p>
+        <p>Take Profit 1: {{ signal.tp1 }}</p>
+        <p>Take Profit 2: {{ signal.tp2 }}</p>
+    {% else %}
+        <p>No signal generated!</p>
+    {% endif %}
+    <a href="/">Back</a>
+</body>
+</html>
