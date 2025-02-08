@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Binance Trading Signals</title>
+</head>
+<body>
+    <h1>Binance Trading Signal Generator</h1>
+    <form method="POST" action="/get_signal">
+        <label>Select Coin:</label>
+        <select name="symbol">
+            {% for symbol in symbols %}
+                <option value="{{ symbol }}">{{ symbol }}</option>
+            {% endfor %}
+        </select>
+        
+        <label>Timeframe:</label>
+        <select name="timeframe">
+            <option value="1h">1 Hour</option>
+            <option value="4h">4 Hours</option>
+            <option value="1d">1 Day</option>
+        </select>
+        
+        <button type="submit">Generate Signal</button>
+    </form>
+</body>
+</html>
