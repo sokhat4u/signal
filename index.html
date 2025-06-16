@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pollfish Generator</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { margin: 5px; padding: 5px; }
+  </style>
+</head>
+<body>
+  <h2>Pollfish Device Link Generator</h2>
+
+  <label>Device ID Prefix: </label>
+  <input type="text" id="prefix" value="ZEEAND"><br>
+
+  <label>Start Number: </label>
+  <input type="number" id="start" value="51"><br>
+
+  <label>End Number: </label>
+  <input type="number" id="end" value="60"><br>
+
+  <label>IP Address: </label>
+  <input type="text" id="ip" value="14.1.64.91"><br>
+
+  <button onclick="generateLinks()">Generate Links</button>
+  <button onclick="openAllTabs()">🚀 Open All Tabs</button>
+
+  <ul id="linkList"></ul>
+
+  <script>
+    let links = [];
+
+    function jsonToUrl(json) {
+      return encodeURIComponent(JSON.stringify(json));
+    }
+
+    function generateLinks() {
+      const list = document.getElementById("linkList");
+      list.innerHTML = "";
+      links = [];
+
+      const prefix = document.getElementById("prefix").value;
+      const start = parseInt(document.getElementById("start").value);
+      const end = parseInt(document.getElementById("end").value);
+      const ip = document.getElementById("ip").value;
+      const currentTimestamp = Date.now().toString();
+
+      for (let i = start; i <= end; i++) {
+        const deviceId = prefix + i;
+
+        const jsonData = {
+          api_key: "12e20004-50f9-4d2f-b683-f965a78aed1b",
+          device_id: deviceId,
+          timestamp: currentTimestamp,
+          encryption: "NONE",
+          version: "7",
+          os: "3",
+          ip: ip,
+          debug: "false",
+          offerwall: "true",
+          request_uuid: "",
+          year_of_birth: "1985",
+          gender: "1",
+          click_id: "",
+          marital_status: "1",
+          education: "5",
+          income: 7,
+          employment: "0",
+          parental: "3",
+          race: "2",
+          career: "23",
+          number_of_employees: "5",
+          organization_role: "2",
+          spoken_languages: Array.from({ length: 100 }, (_, i) => i.toString())
+        };
+
+        const url = `https://wss.pollfish.com/v2/device/register/true?json=${jsonToUrl(jsonData)}&dontencrypt=true`;
+
+        links.push(url);
+
+        let li = document.createElement("li");
+        let a = document.createElement("a");
+        a.href = url;
+        a.textContent = "Open for " + deviceId;
+        a.target = "_blank";
+        li.appendChild(a);
+        list.appendChild(li);
+      }
+    }
+
+    function openAllTabs() {
+      for (let i = 0; i < links.length; i++) {
+        window.open(links[i], '_blank');
+      }
+    }
+  </script>
+</body>
+</html>
